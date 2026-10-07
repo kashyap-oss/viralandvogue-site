@@ -149,6 +149,12 @@ nav{position:sticky;top:0;z-index:50;background:rgba(9,9,10,.75);backdrop-filter
 @keyframes pop{from{transform:scale(.95);opacity:0}}
 .result .score{font-family:var(--serif);font-size:3.4rem;line-height:1;color:var(--lime)}
 .result p{color:#bbb;margin:8px 0 18px;font-size:.95rem}
+.result .tier{font-weight:600;font-size:1.05rem;margin-top:6px}
+.result .fix{border:1px solid rgba(242,237,227,.14);border-radius:14px;padding:14px 16px;margin-bottom:16px}
+.result .fix small{display:block;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#8f8b84;margin-bottom:4px}
+.result .fix span{color:var(--lime);font-weight:500}
+.result .ig{color:#bbb;margin-bottom:16px}
+.result .ig input{margin-top:2px}
 
 /* process */
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px;counter-reset:st}
@@ -407,7 +413,10 @@ footer{padding:80px 0 30px;border-top:1px solid var(--line)}
       <div class="q"><span>Do you show up on Google when people search your category nearby?</span><div class="yn"><button>Yes</button><button>No</button></div></div>
       <div class="result" id="result">
         <div class="score" id="score">0/6</div>
+        <div class="tier" id="tier"></div>
         <p id="verdict"></p>
+        <div class="fix" id="fixBox"><small>Your #1 fix</small><span id="fix"></span></div>
+        <label class="ig">Your Instagram (so we can audit it)<input id="igHandle" placeholder="@yourbrand" autocapitalize="off" autocomplete="off"></label>
         <a class="btn btn-lime" id="auditBtn" target="_blank" rel="noopener">Get my free audit on WhatsApp →</a>
       </div>
     </div>
@@ -659,18 +668,54 @@ qs.forEach((q, i) => {
   y.onclick = () => { answers[i] = 1; y.className = 'sel-y'; n.className = ''; update(); };
   n.onclick = () => { answers[i] = 0; n.className = 'sel-n'; y.className = ''; update(); };
 });
+// what each answer means for the business (same order as the questions)
+const DIAG = [
+  {miss:"Posting less than 3× a week", why:"the algorithm stops showing me", win:"Posting consistently", fix:"A consistent posting rhythm"},
+  {miss:"Hardly any reels", why:"missing Instagram's biggest reach format", win:"Posting reels regularly", fix:"A regular reels plan"},
+  {miss:"Feed looks inconsistent", why:"my brand doesn't look premium yet", win:"A consistent, recognisable feed", fix:"A consistent visual identity"},
+  {miss:"No weekly enquiries from strangers", why:"content isn't turning into sales", win:"Strangers enquire every week", fix:"Content that turns viewers into enquiries"},
+  {miss:"No website I'm proud of", why:"losing trust when people check me out", win:"A website I'm proud to share", fix:"A website that builds trust"},
+  {miss:"Not showing up on Google nearby", why:"local customers find competitors first", win:"Showing up on Google locally", fix:"Local Google visibility"}
+];
+const PRIORITY = [0, 1, 3, 2, 5, 4]; // fix order: consistency, reels, conversion, look, Google, website
+const TIERS = s => s === 6 ? "Main character ✨" : s === 5 ? "Almost iconic" : s >= 3 ? "Getting noticed" : s >= 1 ? "Invisible mode" : "Ghost mode 👻";
+
+function buildAuditLink(){
+  if (answers.includes(null)) return;
+  const s = answers.reduce((a, b) => a + b, 0);
+  const gaps = DIAG.filter((d, i) => answers[i] === 0);
+  const wins = DIAG.filter((d, i) => answers[i] === 1);
+  const top = PRIORITY.find(i => answers[i] === 0);
+  const ig = document.getElementById('igHandle').value.trim();
+  const handle = ig ? (ig.startsWith('@') ? ig : '@' + ig) : '(will share in chat)';
+  const lines = [
+    "Hi Viral & Vogue! 👋",
+    "I just took the Brand Vibe Check.",
+    "",
+    `*Score: ${s}/6 · ${TIERS(s)}*`
+  ];
+  if (gaps.length) lines.push("", "*What's holding my brand back:*", ...gaps.map(g => `✗ ${g.miss} (${g.why})`));
+  if (wins.length) lines.push("", "*What's already working:*", ...wins.map(w => `✓ ${w.win}`));
+  lines.push("", top !== undefined ? `*Top priority:* ${DIAG[top].fix}` : "*Goal:* Scale what's working with ads & bigger content");
+  lines.push("", "I'd like my free audit 🙌", `My Instagram: ${handle}`);
+  document.getElementById('auditBtn').href = wa(lines.join("\n"));
+}
+
 function update(){
   if (answers.includes(null)) return;
   const s = answers.reduce((a, b) => a + b, 0);
+  const top = PRIORITY.find(i => answers[i] === 0);
   document.getElementById('score').textContent = s + '/6';
-  const v = s >= 5 ? "Your brand is giving main character energy ✨ Let's scale it with ads and bigger content."
-          : s >= 3 ? "Solid base, but you're leaving customers on the table. A few fixes could change everything."
-          : "Honestly? Your customers can't find you yet. Good news — this is the easiest stage to fix fast.";
-  document.getElementById('verdict').textContent = v;
-  const missing = qs.filter((q, i) => answers[i] === 0).map(q => '• ' + q.querySelector('span').textContent).join('\n');
-  document.getElementById('auditBtn').href = wa(`Hi Viral & Vogue! I scored ${s}/6 on the Brand Vibe Check.\n\nWhere I'm missing:\n${missing || '• Nothing, I want to scale!'}\n\nI'd like my free audit. My Instagram: `);
+  document.getElementById('tier').textContent = TIERS(s);
+  document.getElementById('verdict').textContent =
+      s >= 5 ? "Your basics are strong. Now it's about scale: ads, bigger content and more enquiries."
+    : s >= 3 ? "Solid base, but you're leaving customers on the table. A few targeted fixes could change everything."
+    : "Your customers can't find you yet. Good news: this is the fastest stage to fix.";
+  document.getElementById('fix').textContent = top !== undefined ? DIAG[top].fix : "Scale with ads & bigger content";
+  buildAuditLink();
   document.getElementById('result').classList.add('show');
 }
+document.getElementById('igHandle').addEventListener('input', buildAuditLink);
 
 // plan buttons
 document.querySelectorAll('[data-plan]').forEach(b => b.addEventListener('click', () => document.getElementById('plan').value = b.dataset.plan));
