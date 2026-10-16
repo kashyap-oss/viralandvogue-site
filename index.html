@@ -220,6 +220,20 @@ nav{position:sticky;top:0;z-index:50;background:rgba(9,9,10,.75);backdrop-filter
 .cmp tr:last-child td{border-bottom:0}
 .cmp .hl{background:rgba(215,255,61,.08);color:var(--lime);font-weight:600}
 .acc{font-size:1.6rem;font-weight:500;margin:60px 0 0}
+.couture{margin-top:56px;display:grid;grid-template-columns:1fr 1.15fr;gap:40px;padding:44px;border-radius:30px;background:linear-gradient(135deg,#17171a 0%,#0d0d0f 60%);border:1px solid rgba(215,255,61,.35);position:relative;overflow:hidden}
+.couture::before{content:"";position:absolute;width:420px;height:420px;right:-140px;top:-160px;background:radial-gradient(circle,rgba(215,255,61,.14),transparent 65%);pointer-events:none}
+.c-badge{display:inline-block;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--lime);border:1px solid rgba(215,255,61,.4);border-radius:999px;padding:7px 14px}
+.couture h3{font-family:var(--serif);font-style:italic;font-weight:400;font-size:3.4rem;line-height:1;margin:18px 0 10px;color:var(--cream)}
+.c-for{color:var(--muted);font-size:.98rem;max-width:420px}
+.c-price{font-size:3rem;font-weight:600;letter-spacing:-.04em;line-height:1;margin-top:26px}
+.c-price small{font-size:.9rem;font-weight:400;letter-spacing:0;color:var(--muted)}
+.c-note{color:var(--muted);font-size:.85rem;margin:8px 0 26px}
+.c-list{list-style:none;display:grid;gap:0;align-self:center;position:relative}
+.c-list li{padding:18px 0;border-top:1px solid var(--line)}
+.c-list li:first-child{border-top:0}
+.c-list b{display:block;font-weight:500;font-size:1.05rem}
+.c-list b::before{content:"✦ ";color:var(--lime)}
+.c-list span{color:var(--muted);font-size:.9rem}
 .fine{color:var(--muted);font-size:.82rem;text-align:center;margin-top:24px}
 
 /* founding offer */
@@ -281,6 +295,8 @@ footer{padding:80px 0 30px;border-top:1px solid var(--line)}
   .bento{grid-template-columns:repeat(2,1fr)}
   .problem-grid,.plans{grid-template-columns:1fr}
   .plan.hot{transform:none}
+  .couture{grid-template-columns:1fr;padding:30px 24px;gap:10px}
+  .c-badge{font-size:.62rem;letter-spacing:.1em;padding:6px 12px}
   .ind,.steps,.addons{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:700px){
@@ -497,7 +513,7 @@ footer{padding:80px 0 30px;border-top:1px solid var(--line)}
         <h3>Vogue</h3><p class="for muted">The full premium brand experience.</p>
         <div class="p">₹14,900<small> /mo</small></div>
         <p class="step muted">Just ₹5,000 more than Viral</p>
-        <ul><li>Everything in Viral, plus:</li><li>16 designed posts + 8 reels</li><li>2 campaign visual sets (16 visuals)</li><li>Google ads</li><li>Website care</li><li>Monthly strategy call</li></ul>
+        <ul><li>Everything in Viral, plus:</li><li>16 designed posts + 8 reels</li><li>2 campaign visual sets (16 visuals)</li><li>Google ads</li><li>Website care</li><li>Monthly written strategy report</li></ul>
         <a href="#contact" class="btn btn-line" data-plan="Vogue">Go Vogue</a>
       </div>
     </div>
@@ -517,11 +533,29 @@ footer{padding:80px 0 30px;border-top:1px solid var(--line)}
           <tr><td>Meta ads management</td><td>—</td><td class="hl">✓</td><td>✓</td></tr>
           <tr><td>Google ads</td><td>—</td><td class="hl">—</td><td>✓</td></tr>
           <tr><td>Website care</td><td>—</td><td class="hl">—</td><td>✓</td></tr>
-          <tr><td>Reporting</td><td>Snapshot</td><td class="hl">Detailed</td><td>Detailed + strategy call</td></tr>
+          <tr><td>Reporting</td><td>Snapshot</td><td class="hl">Detailed</td><td>Detailed + written strategy</td></tr>
         </tbody>
       </table>
       </div>
     </details>
+
+    <div class="couture rv" id="couture">
+      <div class="c-head">
+        <span class="c-badge">By application only · limited to 3 brands</span>
+        <h3>Couture</h3>
+        <p class="c-for">For established brands ready to scale. Content, full-funnel ads and SEO, run as one growth engine.</p>
+        <div class="c-price">₹29,900<small> /mo</small></div>
+        <p class="c-note">6-month minimum · ad spend separate</p>
+        <a href="#contact" class="btn btn-lime" data-plan="Couture">Apply for Couture →</a>
+      </div>
+      <ul class="c-list">
+        <li><b>Everything in Vogue</b><span>Posts, reels, campaign visuals and website care</span></li>
+        <li><b>Full-funnel Meta &amp; Google ads</b><span>Awareness → engagement → remarketing to warm audiences</span></li>
+        <li><b>Ad creatives, tested monthly</b><span>Multiple variations, approved by you before going live</span></li>
+        <li><b>SEO growth</b><span>Technical fixes, product &amp; category pages, 4 articles a month, local SEO</span></li>
+        <li><b>Weekly performance updates</b><span>Plus a monthly written strategy report</span></li>
+      </ul>
+    </div>
 
     <h3 class="acc rv">Add-ons & one-time work</h3>
     <div class="addons">
@@ -531,6 +565,9 @@ footer{padding:80px 0 30px;border-top:1px solid var(--line)}
       <div class="rv"><b>Brand Identity</b><small>Logo, palette, fonts & guide</small><span>₹7,900</span></div>
       <div class="rv"><b>Business Website</b><small>Up to 6 pages + WhatsApp</small><span>₹12,900</span></div>
       <div class="rv"><b>E-commerce Store</b><small>Shopify / WooCommerce setup</small><span>₹29,900</span></div>
+      <div class="rv"><b>WhatsApp Business Setup</b><small>Profile, catalogue, auto-replies & quick replies</small><span>₹2,900</span></div>
+      <div class="rv"><b>Google Business Setup</b><small>Profile, photos, posts & a review QR card</small><span>₹2,900</span></div>
+      <div class="rv"><b>Festive Campaign Pack</b><small>10 posts, 4 reels & ad creatives for one occasion</small><span>₹4,900</span></div>
     </div>
     <p class="fine">Ad spend is paid separately, straight to Meta or Google. GST extra where applicable. Monthly plans: 3-month minimum, then month-to-month.</p>
   </div>
@@ -562,7 +599,7 @@ footer{padding:80px 0 30px;border-top:1px solid var(--line)}
       <details class="rv"><summary>How soon will I see results?</summary><p>Your page will look better from week one. Real growth in followers and enquiries usually builds over 60–90 days of consistent posting — that's why monthly plans start at 3 months.</p></details>
       <details class="rv"><summary>Is ad spend included?</summary><p>No. Ad spend is paid directly to Meta or Google from your own account, so you stay in control. Our fee covers strategy, creatives and management.</p></details>
       <details class="rv"><summary>Who owns my accounts and content?</summary><p>You do — always. Your pages, ad accounts, website and every piece of content we make for you are yours.</p></details>
-      <details class="rv"><summary>Do you work outside Surat?</summary><p>Yes, with brands across India and abroad. Everything runs over calls and WhatsApp, and you never need to visit a studio.</p></details>
+      <details class="rv"><summary>Do you work outside Surat?</summary><p>Yes, with brands across India and abroad. Everything runs over WhatsApp and email, and you never need to visit a studio.</p></details>
       <details class="rv"><summary>Do I need to arrange a photoshoot?</summary><p>No. Just send a few clear phone photos of your product and we turn them into studio-quality campaign visuals within 48 hours. Every visual is checked so your product looks exactly like what customers receive.</p></details>
       <details class="rv"><summary>Can you make content in Gujarati or Hindi?</summary><p>Absolutely. Local-language content often performs better because it feels real. We create in English, Gujarati and Hindi.</p></details>
     </div>
@@ -607,6 +644,7 @@ footer{padding:80px 0 30px;border-top:1px solid var(--line)}
           <option value="Spark">Spark · ₹6,900/mo</option>
           <option value="Viral">Viral · ₹9,900/mo</option>
           <option value="Vogue">Vogue · ₹14,900/mo</option>
+          <option value="Couture">Couture · ₹29,900/mo (application)</option>
           <option value="One-time project">One-time project (website, branding, visuals)</option>
         </select>
       </label>
